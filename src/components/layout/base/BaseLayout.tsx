@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import BaseDrawer from '../drawer/BaseDrawer';
 export interface IBaseLayout {
-  sampleTextProp?: string;
   children?: React.ReactNode;
 }
 
@@ -25,6 +24,7 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
+        elevation={0}
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -56,6 +56,8 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          backgroundColor: '#f1f1f1',
+          height: '100vh',
         }}
       >
         <Toolbar />

@@ -1,8 +1,6 @@
 import { IBaseLayout } from './BaseLayout';
 
-const base: IBaseLayout = {
-  sampleTextProp: 'Hello world!',
-};
+const base: IBaseLayout = {};
 
 export const mockBaseLayoutProps = {
   base,

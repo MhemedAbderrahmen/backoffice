@@ -1,12 +1,13 @@
 import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
-  components: {},
-  palette: {
-    mode: 'light',
-    // primary: {
-    //   main: '#003f5c',
-    // },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+        disableElevation: true,
+      },
+    },
   },
   typography: {
     fontFamily: [
