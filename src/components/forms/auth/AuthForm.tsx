@@ -5,7 +5,7 @@ export interface IAuthForm {
   sampleTextProp?: string;
 }
 
-const AuthForm: React.FC<IAuthForm> = ({ sampleTextProp }) => {
+const AuthForm: React.FC<IAuthForm> = () => {
   return (
     <Container maxWidth="xs" sx={{ width: '100%', height: '100%' }}>
       <Box
