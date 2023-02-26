@@ -1,7 +1,8 @@
 import { IDrawerLink } from './DrawerLink';
 
 const base: IDrawerLink = {
-  sampleTextProp: 'Hello world!',
+  text: 'Test',
+  icon: '',
 };
 
 export const mockDrawerLinkProps = {
