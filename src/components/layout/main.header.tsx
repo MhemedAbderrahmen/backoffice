@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import { Component } from 'react';
 
 export default class MainHeader extends Component {
   render() {
-    return (
-      <div>MainHeader</div>
-    )
+    return <div>MainHeader</div>;
   }
 }
