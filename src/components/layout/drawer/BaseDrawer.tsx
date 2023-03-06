@@ -3,7 +3,6 @@ import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import TaskRoundedIcon from '@mui/icons-material/TaskRounded';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,7 +22,6 @@ const BaseDrawer: React.FC<IBaseDrawer> = ({
   const drawer = (
     <div>
       <Toolbar />
-      <Divider />
       <List>
         <DrawerLink icon={<HomeRoundedIcon />} text={'Home'} />
         <DrawerLink icon={<TaskRoundedIcon />} text={'Tasks'} />

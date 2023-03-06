@@ -2,6 +2,17 @@ import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
   components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          border: 'none',
+          backgroundColor: '#42A6F5',
+        },
+        notchedOutline: {
+          border: 'none',
+        },
+      },
+    },
     MuiButton: {
       defaultProps: {
         variant: 'contained',

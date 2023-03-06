@@ -1,12 +1,12 @@
-import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import BaseDrawer from '../drawer/BaseDrawer';
+import ToolbarLayout from '../toolbar/ToolbarLayout';
 export interface IBaseLayout {
   children?: React.ReactNode;
 }
@@ -32,18 +32,16 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
         }}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Backoffice
-          </Typography>
+          <Grid container>
+            <Grid item md={3}>
+              <Typography variant="h6" color="initial" sx={{ color: 'white' }}>
+                Dashboard
+              </Typography>
+            </Grid>
+            <Grid item md={9}>
+              <ToolbarLayout />
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <BaseDrawer
@@ -56,7 +54,7 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          backgroundColor: '#f1f1f1',
+          backgroundColor: '#F7F6FA',
           height: '100vh',
         }}
       >
