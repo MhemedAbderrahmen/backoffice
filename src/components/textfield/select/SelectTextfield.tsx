@@ -13,7 +13,7 @@ import { useMemo, useState } from 'react';
 const containsText = (text: string, searchText: string) =>
   text.toString().toLowerCase().indexOf(searchText.toLowerCase()) > -1;
 const allOptions = ['Option One', 'Option Two', 'Option Three', 'Option Four'];
-interface ISelectTextField {
+export interface ISelectTextField {
   options: string[];
   onChange: any;
 }

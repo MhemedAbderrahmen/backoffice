@@ -1,7 +1,8 @@
-import { ISelectTextfield } from './SelectTextfield';
+import { ISelectTextField } from './SelectTextfield';
 
-const base: ISelectTextfield = {
-  sampleTextProp: 'Hello world!',
+const base: ISelectTextField = {
+  onChange: null,
+  options: [],
 };
 
 export const mockSelectTextfieldProps = {

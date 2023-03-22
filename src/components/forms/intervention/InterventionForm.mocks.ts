@@ -1,4 +1,4 @@
-import { IInterventionForm } from './InterventionForm';
+import { IInterventionForm } from "./InterventionForm";
 
 const base: IInterventionForm = {
   sampleTextProp: 'Hello world!',

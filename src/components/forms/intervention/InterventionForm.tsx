@@ -20,7 +20,7 @@ import IInterventionData from 'src/const/intervention.type';
 import { technicians } from 'src/data/mocks';
 import InterventionsContext from 'src/state/interventions/InterventionsContext';
 import { FORM_VALIDATION, initialValues } from './IterventionForm.hooks';
-interface IInterventionForm {
+export interface IInterventionForm {
   sampleTextProp?: string;
 }
 
@@ -86,9 +86,8 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                       <Grid item xs={12} md={4}>
                         <SelectTextfield
                           options={techs}
-                          onChange={(e) => {
-                            console.log(e);
-
+                          onChange={() => {
+                            // console.log(e);
                             // formikProps.setFieldValue(
                             //   'group',
                             //   technicians[e.target.value].id
