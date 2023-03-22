@@ -17,14 +17,14 @@ export const technicians: ITechnicianData[] = [
 
 export let interventions: IInterventionData[] = [
   {
-    id: '1',
+    id: 1,
     group: 1,
     title: 'Inter 1',
     start_time: moment().add(6, 'hour'),
     end_time: moment().add(7, 'hour'),
   },
   {
-    id: '2',
+    id: 2,
     group: 2,
     title: 'Inter 2',
     start_time: moment().add(-0.5, 'hour'),
