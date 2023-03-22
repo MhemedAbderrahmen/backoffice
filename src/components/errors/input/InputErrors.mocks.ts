@@ -1,7 +1,8 @@
 import { IInputErrors } from './InputErrors';
 
 const base: IInputErrors = {
-  sampleTextProp: 'Hello world!',
+  display: false,
+  text: '',
 };
 
 export const mockInputErrorsProps = {
