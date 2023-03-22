@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import SelectTextfield, { ISelectTextfield } from './SelectTextfield';
+import SelectTextfield, { ISelectTextField } from './SelectTextfield';
 import { mockSelectTextfieldProps } from './SelectTextfield.mocks';
 
 export default {
@@ -19,4 +19,4 @@ export const Base = Template.bind({});
 
 Base.args = {
   ...mockSelectTextfieldProps.base,
-} as ISelectTextfield;
+} as ISelectTextField;
