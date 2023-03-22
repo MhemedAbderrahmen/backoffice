@@ -6,10 +6,10 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           border: 'none',
-          backgroundColor: '#42A6F5',
+          backgroundColor: '#F7F6FA',
         },
         notchedOutline: {
-          border: 'none',
+          // border: 'none',
         },
       },
     },

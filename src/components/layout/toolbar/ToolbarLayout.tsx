@@ -1,4 +1,3 @@
-import SearchTextfield from '@/components/textfield/search/SearchTextfield';
 import LanguageRoundedIcon from '@mui/icons-material/LanguageRounded';
 import LightbulbRoundedIcon from '@mui/icons-material/LightbulbRounded';
 import Person3RoundedIcon from '@mui/icons-material/Person3Rounded';
@@ -17,7 +16,7 @@ const ToolbarLayout: React.FC<IToolbarLayout> = ({ children }) => {
         textAlign: 'right',
       }}
     >
-      <SearchTextfield />
+      {/* <SearchTextfield /> */}
       <IconButton>
         <LanguageRoundedIcon sx={{ color: 'white' }} />
       </IconButton>

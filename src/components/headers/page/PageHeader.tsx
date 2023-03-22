@@ -14,8 +14,8 @@ const PageHeader: React.FC<IPageHeader> = ({ text, icon }) => {
         backgroundColor: 'white',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
       }}
-      p={3}
-      mb={3}
+      p={2}
+      mb={1}
       borderRadius={2}
     >
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
