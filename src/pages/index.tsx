@@ -1,5 +1,4 @@
 import BaseCalendar from '@/components/calendar/base/BaseCalendar';
-import BaseLayout from '@/components/layout/base/BaseLayout';
 import Head from 'next/head';
 export default function Home() {
   return (
@@ -11,9 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <BaseLayout>
-          <BaseCalendar sampleTextProp="test" />
-        </BaseLayout>
+        <BaseCalendar sampleTextProp="test" />
       </main>
     </>
   );

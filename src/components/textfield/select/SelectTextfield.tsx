@@ -8,11 +8,10 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const containsText = (text: string, searchText: string) =>
   text.toString().toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-const allOptions = ['Option One', 'Option Two', 'Option Three', 'Option Four'];
 export interface ISelectTextField {
   options: string[];
   onChange: any;
@@ -24,7 +23,9 @@ const SelectTextfield: React.FC<ISelectTextField> = ({ onChange, options }) => {
     () => options.filter((option) => containsText(option, searchText)),
     [searchText]
   );
-
+  useEffect(() => {
+    console.log(options);
+  }, []);
   return (
     <FormControl fullWidth>
       <InputLabel id="search-select-label">Technicians</InputLabel>

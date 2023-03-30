@@ -1,16 +1,18 @@
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Toolbar from '@mui/material/Toolbar';
+import React from 'react';
+
 import DrawerLink from '@/components/link/drawer/DrawerLink';
 import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import TaskRoundedIcon from '@mui/icons-material/TaskRounded';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Toolbar from '@mui/material/Toolbar';
-import React from 'react';
+import { NextRouter } from 'next/router';
 export interface IBaseDrawer {
   window?: () => Window;
   mobileIsOpen: boolean;
   handleDrawerToggle: () => void;
+  router: NextRouter;
 }
 
 const drawerWidth = 240;
@@ -18,15 +20,32 @@ const BaseDrawer: React.FC<IBaseDrawer> = ({
   window,
   handleDrawerToggle,
   mobileIsOpen,
+  router,
 }) => {
   const drawer = (
     <div>
       <Toolbar />
-      <List>
-        <DrawerLink icon={<HomeRoundedIcon />} text={'Home'} />
-        <DrawerLink icon={<TaskRoundedIcon />} text={'Tasks'} />
-        <DrawerLink icon={<BuildRoundedIcon />} text={'Technicians'} />
-      </List>
+      <DrawerLink
+        onClick={() => {
+          router.push('/');
+        }}
+        icon={<HomeRoundedIcon />}
+        text={'Acceuil'}
+      />
+      <DrawerLink
+        onClick={() => {
+          router.push('/tasks');
+        }}
+        icon={<TaskRoundedIcon />}
+        text={'Taches'}
+      />
+      <DrawerLink
+        onClick={() => {
+          router.push('/users');
+        }}
+        icon={<BuildRoundedIcon />}
+        text={'Techniciens'}
+      />{' '}
     </div>
   );
 

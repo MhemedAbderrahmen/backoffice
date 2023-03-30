@@ -9,11 +9,12 @@ import { ReactNode } from 'react';
 export interface IDrawerLink {
   icon?: ReactNode;
   text: string;
+  onClick: () => void;
 }
 
-const DrawerLink: React.FC<IDrawerLink> = ({ icon, text }) => {
+const DrawerLink: React.FC<IDrawerLink> = ({ icon, text, onClick }) => {
   return (
-    <ListItem key={text} disablePadding>
+    <ListItem key={text} disablePadding onClick={onClick}>
       <ListItemButton>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />

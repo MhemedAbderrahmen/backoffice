@@ -30,7 +30,7 @@ const BaseCalendar: React.FC<IBaseCalendar> = () => {
 
   return (
     <Box>
-      <PageHeader icon={<BiotechRoundedIcon />} text="Manage Iterventions" />
+      <PageHeader icon={<BiotechRoundedIcon />} text="Gestion Interventions" />
 
       <Box
         sx={{

@@ -1,22 +1,17 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import BaseLayout, { IBaseLayout } from './BaseLayout';
-import { mockBaseLayoutProps } from './BaseLayout.mocks';
+import BaseDialog from './BaseDialog';
 
 export default {
-  title: 'templates/BaseLayout',
-  component: BaseLayout,
+  title: 'templates/BaseDialog',
+  component: BaseDialog,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
-} as ComponentMeta<typeof BaseLayout>;
+} as ComponentMeta<typeof BaseDialog>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof BaseLayout> = (args) => (
-  <BaseLayout {...args} />
+const Template: ComponentStory<typeof BaseDialog> = (args) => (
+  <BaseDialog {...args} />
 );
 
 export const Base = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-
-Base.args = {
-  ...mockBaseLayoutProps.base,
-} as IBaseLayout;

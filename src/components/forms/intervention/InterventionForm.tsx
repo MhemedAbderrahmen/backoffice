@@ -17,7 +17,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Form, Formik } from 'formik';
 import { useContext, useEffect, useRef, useState } from 'react';
 import IInterventionData from 'src/const/intervention.type';
-import { technicians } from 'src/data/mocks';
+import BackofficeService from 'src/services/BackofficeService';
 import InterventionsContext from 'src/state/interventions/InterventionsContext';
 import { FORM_VALIDATION, initialValues } from './IterventionForm.hooks';
 export interface IInterventionForm {
@@ -35,9 +35,12 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
     pushToInterventions(intervention);
     return intervention;
   };
-  const fetchTechnicians = () => {
-    technicians.map(async (tech) => await techs.push(tech.title));
+  const fetchTechnicians = async () => {
+    let res: any;
+    res = await BackofficeService.fetchAllUsers();
+    await setTechs(res.data.data);
   };
+
   useEffect(() => {
     if (loading.current) {
       console.log('Loading');
@@ -52,7 +55,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
         <Accordion
           elevation={0}
           sx={{
-            bomdhadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+            backgroundColor: '#F7F6FA',
           }}
         >
           <AccordionSummary
@@ -67,7 +70,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                 flemdhrink: 0,
               }}
             >
-              Create Intervention
+              Creation Intervention
             </Typography>
           </AccordionSummary>
           <Formik
@@ -84,16 +87,18 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                   <AccordionDetails>
                     <Grid container maxWidth={'xl'} spacing={3}>
                       <Grid item xs={12} md={4}>
-                        <SelectTextfield
-                          options={techs}
-                          onChange={() => {
-                            // console.log(e);
-                            // formikProps.setFieldValue(
-                            //   'group',
-                            //   technicians[e.target.value].id
-                            // );
-                          }}
-                        />
+                        {techs ? (
+                          <SelectTextfield
+                            options={techs}
+                            onChange={() => {
+                              // console.log(e);
+                              // formikProps.setFieldValue(
+                              //   'group',
+                              //   technicians[e.target.value].id
+                              // );
+                            }}
+                          />
+                        ) : null}
                       </Grid>
                       <Grid item xs={12} md={4}>
                         <FormControl fullWidth>

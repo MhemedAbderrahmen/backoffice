@@ -19,7 +19,6 @@ const PageHeader: React.FC<IPageHeader> = ({ text, icon }) => {
       borderRadius={2}
     >
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        {icon}
         <Typography variant="h6">{text}</Typography>
       </Box>
       <Divider />

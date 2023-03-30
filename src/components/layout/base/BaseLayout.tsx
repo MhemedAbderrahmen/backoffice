@@ -4,16 +4,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { NextRouter } from 'next/router';
 import * as React from 'react';
 import BaseDrawer from '../drawer/BaseDrawer';
 import ToolbarLayout from '../toolbar/ToolbarLayout';
 export interface IBaseLayout {
   children?: React.ReactNode;
+  router: NextRouter;
 }
 
 const drawerWidth = 240;
 
-const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
+const BaseLayout: React.FC<IBaseLayout> = ({ children, router }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -45,6 +47,7 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children }) => {
         </Toolbar>
       </AppBar>
       <BaseDrawer
+        router={router}
         mobileIsOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
