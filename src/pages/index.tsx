@@ -1,6 +1,11 @@
 import BaseCalendar from '@/components/calendar/base/BaseCalendar';
+import BaseLayout from '@/components/layout/base/BaseLayout';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 export default function Home() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -10,7 +15,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <BaseCalendar sampleTextProp="test" />
+        <BaseLayout router={router}>
+          <BaseCalendar sampleTextProp="test" />
+        </BaseLayout>
       </main>
     </>
   );

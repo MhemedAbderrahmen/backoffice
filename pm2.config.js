@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'nextjs-app', // The name of your Next.js app
-      script: 'npm', // The script to start the app
-      args: 'run start', // The arguments to pass to the script
+      script: 'yarn', // The script to start the app
+      args: 'start', // The arguments to pass to the script
       cwd: '/home/ec2-user/backoffice', // The directory where the app is located
       watch: true, // Enable file watching and automatic restarts
       env: {
