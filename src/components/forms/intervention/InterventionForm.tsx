@@ -31,7 +31,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
     const loading = useRef(true);
     const {pushToInterventions} = useContext(InterventionsContext);
     const [techs, setTechs] = useState<string[]>([]);
-    const [jobs, setJobs] = useState<string[]>([]);
+    const [jobs, setJobs] = useState<string []>([]);
 
     const insertIntervention = (
         intervention: IInterventionData
