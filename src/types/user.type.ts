@@ -5,7 +5,7 @@ export default interface IUserData {
   active: boolean;
   createdAt: Date;
 }
-export interface IUserMimalData {
+export interface IUserMinimalData {
   email: string;
   phone: string;
 }

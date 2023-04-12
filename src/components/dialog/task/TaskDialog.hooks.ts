@@ -26,7 +26,7 @@ export const INITIAL_FORM_STATE = {
   devis_av: false,
   four_fo: false,
   thirty_fo: false,
-  site_raccorde: false,
+  site_raccord: false,
 };
 export interface optionItem {
   id: number;

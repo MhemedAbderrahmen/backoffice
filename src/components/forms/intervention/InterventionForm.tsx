@@ -28,6 +28,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
   const loading = useRef(true);
   const { pushToInterventions } = useContext(InterventionsContext);
   const [techs, setTechs] = useState<string[]>([]);
+  const [showTechs, setShowTechs] = useState<boolean>(false);
   const insertIntervention = (
     intervention: IInterventionData
   ): IInterventionData => {
@@ -38,17 +39,20 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
   const fetchTechnicians = async () => {
     let res: any;
     res = await BackofficeService.fetchAllUsers();
-    await setTechs(res.data.data);
+    setTechs(res.data.data);
   };
 
   useEffect(() => {
     if (loading.current) {
       console.log('Loading');
-      loading.current = false;
       fetchTechnicians();
+      loading.current = false;
     }
   }, []);
-
+  useEffect(() => {
+    console.log('TECHS', techs);
+    if (techs.length > 0) setShowTechs(true);
+  }, [techs]);
   return (
     <Box mb={2}>
       {!loading.current ? (
@@ -87,7 +91,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                   <AccordionDetails>
                     <Grid container maxWidth={'xl'} spacing={3}>
                       <Grid item xs={12} md={4}>
-                        {techs ? (
+                        {showTechs ? (
                           <SelectTextfield
                             options={techs}
                             onChange={() => {

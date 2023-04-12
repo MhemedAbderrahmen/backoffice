@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import BackofficeService from 'src/services/BackofficeService';
 import IJobData from 'src/types/job.type';
 import { FORM_VALIDATION, INITIAL_FORM_STATE } from './TaskDialog.hooks';
@@ -23,6 +24,13 @@ export interface SimpleDialogProps {
 function TaskDialog(props: SimpleDialogProps) {
   const { onClose, open } = props;
   const router = useRouter();
+  const [file, setFile] = useState<File | null>(null);
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
+    }
+  }
   const handleClose = () => {
     onClose();
   };
@@ -38,11 +46,11 @@ function TaskDialog(props: SimpleDialogProps) {
     devis_av: boolean;
     four_fo: boolean;
     thirty_fo: boolean;
-    site_raccorde: boolean;
+    site_raccord: boolean;
   }) => {
     let job: IJobData = {
       site_name: '',
-      site_raccorde: false,
+      site_raccord: false,
       reference: '',
       operateur: '',
       adress: '',
@@ -53,11 +61,25 @@ function TaskDialog(props: SimpleDialogProps) {
       devis_av: false,
       four_fo: false,
       thirty_fo: false,
+      assignedTo: [],
     };
-
+    const formData = new FormData();
+    formData.append('images', file as Blob);
+    formData.append('site_name', job.site_name);
+    formData.append('reference', job.reference);
+    formData.append('operateur', job.operateur);
+    formData.append('adress', job.adress);
+    formData.append('contact_client', job.contact_client);
+    formData.append('chambre', job.chambre);
+    formData.append('bpe', job.bpe);
+    formData.append('add_info', job.add_info);
+    formData.append('devis_av', job.devis_av.toString());
+    formData.append('four_fo', job.four_fo.toString());
+    formData.append('thirty_fo', job.thirty_fo.toString());
+    formData.append('assignedTo', job.assignedTo.toString());
     let res: any;
-    res = await BackofficeService.createJob(job);
-    router.push('/users');
+    res = await BackofficeService.createJob(formData);
+    router.push('/tasks');
   };
   const formik = useFormik({
     initialValues: INITIAL_FORM_STATE,
@@ -158,8 +180,18 @@ function TaskDialog(props: SimpleDialogProps) {
             />
           </Grid>
           <Grid item xs={6}>
+            <Typography variant="body2">Site Raccord</Typography>
+            <TextField
+              fullWidth
+              name="site_raccorde"
+              size="small"
+              onChange={formik.handleChange}
+              error={formik.touched.bpe && Boolean(formik.errors.bpe)}
+              helperText={formik.touched.bpe && formik.errors.bpe}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <Typography variant="body2">Four Fo</Typography>
-
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="four_fo"
@@ -207,6 +239,10 @@ function TaskDialog(props: SimpleDialogProps) {
             </RadioGroup>
           </Grid>
           <Grid item xs={12}>
+            <Typography variant="body2">Plan</Typography>
+            <input type="file" onChange={handleFileChange} />
+          </Grid>
+          <Grid item xs={12}>
             <Typography variant="body2">Add Info</Typography>
             <TextField
               fullWidth
@@ -222,7 +258,14 @@ function TaskDialog(props: SimpleDialogProps) {
         </Grid>
       </Box>
       <DialogActions>
-        <Button onClick={() => formik.handleSubmit()}>Creation</Button>
+        <Button
+          onClick={() => {
+            console.log(formik.errors);
+            formik.handleSubmit();
+          }}
+        >
+          Creation
+        </Button>
       </DialogActions>
     </Dialog>
   );

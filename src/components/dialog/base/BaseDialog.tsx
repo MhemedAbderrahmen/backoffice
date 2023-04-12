@@ -8,7 +8,7 @@ import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import BackofficeService from 'src/services/BackofficeService';
-import { IUserMimalData } from 'src/types/user.type';
+import { IUserMinimalData } from 'src/types/user.type';
 import { FORM_VALIDATION, INITIAL_FORM_STATE } from './BaseDialog.hooks';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 export interface IBaseDialog {
@@ -26,7 +26,7 @@ function BaseDialog(props: SimpleDialogProps) {
     onClose();
   };
   const submitForm = async (values: { email: string; phone: string }) => {
-    let user: IUserMimalData = {
+    let user: IUserMinimalData = {
       email: '',
       phone: '',
     };

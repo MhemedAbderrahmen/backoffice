@@ -1,5 +1,5 @@
 import IJobData from 'src/types/job.type';
-import IUserData, { IUserMimalData } from 'src/types/user.type';
+import IUserData, { IUserMinimalData } from 'src/types/user.type';
 import axiosInstance from '../api';
 class BackofficeService {
   private readonly urlPrefix = '/back-office';
@@ -11,13 +11,13 @@ class BackofficeService {
   fetchAllJobs() {
     return axiosInstance.get<IUserData[]>(`${this.urlPrefix}/jobs`);
   }
-  createUser(data: IUserMimalData) {
-    return axiosInstance.post<IUserMimalData>(`${this.urlPrefixUser}`, {
+  createUser(data: IUserMinimalData) {
+    return axiosInstance.post<IUserMinimalData>(`${this.urlPrefixUser}`, {
       data,
     });
   }
-  createJob(data: IJobData) {
-    return axiosInstance.post<IUserMimalData>(`${this.urlPrefixUser}`, {
+  createJob(data: FormData) {
+    return axiosInstance.post<IJobData>(`${this.urlPrefix}/create-job`, {
       data,
     });
   }
