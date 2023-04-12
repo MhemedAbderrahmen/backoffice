@@ -1,18 +1,18 @@
 import { FormControlLabel, Grid, Radio, RadioGroup } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import BackofficeService from 'src/services/BackofficeService';
-import IJobData from 'src/types/job.type';
 import { FORM_VALIDATION, INITIAL_FORM_STATE } from './TaskDialog.hooks';
-const emails = ['username@gmail.com', 'user02@gmail.com'];
 export interface ITaskDialog {
   buttonTitle: string;
 }
@@ -20,11 +20,17 @@ export interface SimpleDialogProps {
   open: boolean;
   onClose: () => void;
 }
-
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function TaskDialog(props: SimpleDialogProps) {
   const { onClose, open } = props;
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files.length > 0) {
@@ -33,6 +39,20 @@ function TaskDialog(props: SimpleDialogProps) {
   }
   const handleClose = () => {
     onClose();
+  };
+  const handleClick = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
   };
   const submitForm = async (values: {
     site_name: string;
@@ -48,38 +68,25 @@ function TaskDialog(props: SimpleDialogProps) {
     thirty_fo: boolean;
     site_raccord: boolean;
   }) => {
-    let job: IJobData = {
-      site_name: '',
-      site_raccord: false,
-      reference: '',
-      operateur: '',
-      adress: '',
-      contact_client: '',
-      chambre: '',
-      bpe: '',
-      add_info: '',
-      devis_av: false,
-      four_fo: false,
-      thirty_fo: false,
-      assignedTo: [],
-    };
     const formData = new FormData();
-    formData.append('images', file as Blob);
-    formData.append('site_name', job.site_name);
-    formData.append('reference', job.reference);
-    formData.append('operateur', job.operateur);
-    formData.append('adress', job.adress);
-    formData.append('contact_client', job.contact_client);
-    formData.append('chambre', job.chambre);
-    formData.append('bpe', job.bpe);
-    formData.append('add_info', job.add_info);
-    formData.append('devis_av', job.devis_av.toString());
-    formData.append('four_fo', job.four_fo.toString());
-    formData.append('thirty_fo', job.thirty_fo.toString());
-    formData.append('assignedTo', job.assignedTo.toString());
+    formData.append('plan', file as Blob);
+    formData.append('site_name', formik.values.site_name);
+    formData.append('reference', formik.values.reference);
+    formData.append('operateur', formik.values.operateur);
+    formData.append('adress', formik.values.adress);
+    formData.append('contact_client', formik.values.contact_client);
+    formData.append('chambre', formik.values.chambre);
+    formData.append('bpe', formik.values.bpe);
+    formData.append('add_info', formik.values.add_info);
+    formData.append('devis_av', formik.values.devis_av.toString());
+    formData.append('four_fo', formik.values.four_fo.toString());
+    formData.append('thirty_fo', formik.values.thirty_fo.toString());
+    // formData.append('assignedTo', formik.values.assignedTo.toString());
     let res: any;
     res = await BackofficeService.createJob(formData);
-    router.push('/tasks');
+    if (res.data.statusCode === 200) {
+      handleClick();
+    }
   };
   const formik = useFormik({
     initialValues: INITIAL_FORM_STATE,
@@ -194,7 +201,6 @@ function TaskDialog(props: SimpleDialogProps) {
             <Typography variant="body2">Four Fo</Typography>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
-              name="four_fo"
               value={formik.initialValues.four_fo}
               onChange={formik.handleChange}
             >
@@ -267,6 +273,19 @@ function TaskDialog(props: SimpleDialogProps) {
           Creation
         </Button>
       </DialogActions>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Successfully Created
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 }

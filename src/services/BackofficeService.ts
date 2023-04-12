@@ -1,3 +1,4 @@
+import IJobAssigner from 'src/types/job.assigner.type';
 import IJobData from 'src/types/job.type';
 import IUserData, { IUserMinimalData } from 'src/types/user.type';
 import axiosInstance from '../api';
@@ -17,9 +18,10 @@ class BackofficeService {
     });
   }
   createJob(data: FormData) {
-    return axiosInstance.post<IJobData>(`${this.urlPrefix}/create-job`, {
-      data,
-    });
+    return axiosInstance.post<IJobData>(`${this.urlPrefix}/create-job`, data);
+  }
+  assignJob(data: IJobAssigner) {
+    return axiosInstance.post<IJobData>(`${this.urlPrefix}/assign-job`, data);
   }
 }
 export default new BackofficeService();

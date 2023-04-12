@@ -6,29 +6,63 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  FormControl,
   Grid,
-  InputLabel,
-  TextField,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { Box } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Form, Formik } from 'formik';
-import { useContext, useEffect, useRef, useState } from 'react';
+import react, { useContext, useEffect, useRef, useState } from 'react';
 import IInterventionData from 'src/const/intervention.type';
 import BackofficeService from 'src/services/BackofficeService';
 import InterventionsContext from 'src/state/interventions/InterventionsContext';
+import IJobAssigner from 'src/types/job.assigner.type';
+import IJobData from '../../../types/job.type';
+import IUserData from '../../../types/user.type';
 import { FORM_VALIDATION, initialValues } from './IterventionForm.hooks';
 export interface IInterventionForm {
   sampleTextProp?: string;
 }
-
+const Alert = react.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
   const loading = useRef(true);
   const { pushToInterventions } = useContext(InterventionsContext);
-  const [techs, setTechs] = useState<string[]>([]);
-  const [showTechs, setShowTechs] = useState<boolean>(false);
+
+  const [bodyToSend, setBodyToSend] = useState<IJobAssigner>({
+    assignTo: [],
+    jobId: '',
+    master: '',
+  });
+  const [techniciansLogin, setTechniciansLogin] = useState<string[]>([]);
+  const [techs, setTechs] = useState<IUserData[]>([]);
+  const [jobs, setJobs] = useState<IJobData[]>([]);
+  const [jobsReferences, setJobsReferences] = useState<string[]>([]);
+  const [technician, setTechnician] = useState<String>('');
+  const [task, setTask] = useState<String>('');
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   const insertIntervention = (
     intervention: IInterventionData
   ): IInterventionData => {
@@ -36,23 +70,29 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
     pushToInterventions(intervention);
     return intervention;
   };
+
   const fetchTechnicians = async () => {
     let res: any;
     res = await BackofficeService.fetchAllUsers();
     setTechs(res.data.data);
+    res.data.data.map((item: IUserData) => techniciansLogin.push(item._id));
+  };
+  const fetchJobs = async () => {
+    let res: any;
+    res = await BackofficeService.fetchAllJobs();
+    setJobs(res.data.data);
+    res.data.data.map((item: IJobData) => jobsReferences.push(item.reference));
   };
 
   useEffect(() => {
     if (loading.current) {
       console.log('Loading');
-      fetchTechnicians();
       loading.current = false;
+      fetchTechnicians();
+      fetchJobs();
     }
   }, []);
-  useEffect(() => {
-    console.log('TECHS', techs);
-    if (techs.length > 0) setShowTechs(true);
-  }, [techs]);
+
   return (
     <Box mb={2}>
       {!loading.current ? (
@@ -91,43 +131,47 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                   <AccordionDetails>
                     <Grid container maxWidth={'xl'} spacing={3}>
                       <Grid item xs={12} md={4}>
-                        {showTechs ? (
+                        {techniciansLogin ? (
                           <SelectTextfield
-                            options={techs}
-                            onChange={() => {
-                              // console.log(e);
-                              // formikProps.setFieldValue(
-                              //   'group',
-                              //   technicians[e.target.value].id
-                              // );
+                            title={'Technicians'}
+                            options={techniciansLogin}
+                            onChange={(e: SelectChangeEvent) => {
+                              setTechnician(e.target.value);
+
+                              bodyToSend.assignTo.push(e.target.value);
+                              setBodyToSend({
+                                assignTo: bodyToSend.assignTo,
+                                jobId: bodyToSend.jobId,
+                                master: '',
+                              });
                             }}
                           />
                         ) : null}
                       </Grid>
                       <Grid item xs={12} md={4}>
-                        <FormControl fullWidth>
-                          <InputLabel htmlFor="my-input">
-                            Intervention title
-                          </InputLabel>
-                          <TextField
-                            name="title"
-                            error={
-                              formikProps.touched.title &&
-                              Boolean(formikProps.errors.title)
+                        <SelectTextfield
+                          title={'Intervention'}
+                          options={jobsReferences}
+                          onChange={(e: SelectChangeEvent) => {
+                            setTask(e.target.value);
+                            const foundObject = jobs.find(
+                              (obj) => obj.reference === e.target.value
+                            );
+
+                            if (foundObject) {
+                              const id = foundObject._id;
+                              setBodyToSend({
+                                assignTo: bodyToSend.assignTo,
+                                jobId: id,
+                                master: '',
+                              });
+                            } else {
+                              console.log('Object not found');
                             }
-                            onChange={handleChange}
-                            value={formikProps.values.title}
-                            defaultValue={''}
-                          />
-                          <InputErrors
-                            display={
-                              formikProps.touched.title &&
-                              Boolean(formikProps.errors.title)
-                            }
-                            text={formikProps.errors.title}
-                          />
-                        </FormControl>
+                          }}
+                        />
                       </Grid>
+
                       <Grid item md={4}>
                         <DatePicker
                           onChange={(newValue) =>
@@ -165,7 +209,22 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
                       </Grid>
                       <Grid item md={12}>
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
-                          <Button type="submit">Insert Intervention</Button>
+                          <Button
+                            type="submit"
+                            onClick={async () => {
+                              let res: any;
+
+                              res = await BackofficeService.assignJob(
+                                bodyToSend
+                              );
+
+                              if (res.data.statusCode === 200) {
+                                handleClick();
+                              }
+                            }}
+                          >
+                            Insert Intervention
+                          </Button>
                         </Box>
                       </Grid>
                     </Grid>
@@ -176,6 +235,12 @@ const InterventionForm: React.FC<IInterventionForm> = ({ sampleTextProp }) => {
           </Formik>
         </Accordion>
       ) : null}
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Assigned Successfully
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

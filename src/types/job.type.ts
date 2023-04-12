@@ -1,6 +1,7 @@
 import IUserData from './user.type';
 
 export default interface IJobData {
+  _id: string;
   site_name: string;
   reference: string;
   operateur: string;

@@ -9,9 +9,6 @@ export const FORM_VALIDATION = Yup.object().shape({
   chambre: Yup.string().required('Champ obligatoire'),
   bpe: Yup.string().required('Champ obligatoire'),
   add_info: Yup.string().required('Champ obligatoire'),
-  devis_av: Yup.boolean().required('Champ obligatoire'),
-  four_fo: Yup.boolean().required('Champ obligatoire'),
-  thirty_fo: Yup.boolean().required('Champ obligatoire'),
   site_raccord: Yup.boolean().required('Champ obligatoire'),
 });
 export const INITIAL_FORM_STATE = {
