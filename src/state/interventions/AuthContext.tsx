@@ -12,6 +12,7 @@ interface IAuthContext {
 
 const defaultValue: IAuthContext = {
   me: {
+    _id: '',
     email: '',
     active: false,
     login: '',
