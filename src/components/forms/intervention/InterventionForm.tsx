@@ -8,7 +8,7 @@ import {
     Button,
     FormControl,
     Grid,
-    InputLabel,
+    InputLabel, SelectChangeEvent,
     TextField,
     Typography,
 } from '@mui/material';
@@ -32,7 +32,8 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
     const {pushToInterventions} = useContext(InterventionsContext);
     const [techs, setTechs] = useState<string[]>([]);
     const [jobs, setJobs] = useState<string []>([]);
-
+    const [technician, setTechnician] = useState<String>("");
+    const [task, setTask] = useState<String>("");
     const insertIntervention = (
         intervention: IInterventionData
     ): IInterventionData => {
@@ -60,7 +61,7 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
             fetchJobs();
         }
     }, []);
-    
+
     return (
         <Box mb={2}>
             {!loading.current ? (
@@ -105,12 +106,8 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
                                                     <SelectTextfield
                                                         title={"Technicians"}
                                                         options={techs}
-                                                        onChange={() => {
-                                                            // console.log(e);
-                                                            // formikProps.setFieldValue(
-                                                            //   'group',
-                                                            //   technicians[e.target.value].id
-                                                            // );
+                                                        onChange={(e: SelectChangeEvent) => {
+                                                            setTechnician(e.target.value)
                                                         }}
                                                     />
                                                 ) : null}
@@ -119,16 +116,11 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
                                                 <SelectTextfield
                                                     title={"Intervention"}
                                                     options={jobs}
-                                                    onChange={() => {
-                                                        // console.log(e);
-                                                        // formikProps.setFieldValue(
-                                                        //   'group',
-                                                        //   technicians[e.target.value].id
-                                                        // );
-                                                    }}
-                                                />
+                                                    onChange={(e: SelectChangeEvent) => {
+                                                        setTask(e.target.value)
+                                                    }}                                                />
                                             </Grid>
-                                            
+
                                             <Grid item md={4}>
                                                 <DatePicker
                                                     onChange={(newValue) =>
@@ -166,7 +158,9 @@ const InterventionForm: React.FC<IInterventionForm> = ({sampleTextProp}) => {
                                             </Grid>
                                             <Grid item md={12}>
                                                 <Box sx={{width: '100%', textAlign: 'center'}}>
-                                                    <Button type="submit">Insert Intervention</Button>
+                                                    <Button type="submit" onClick={() => {
+                                                        console.log('Clicked')
+                                                    }}>Insert Intervention</Button>
                                                 </Box>
                                             </Grid>
                                         </Grid>

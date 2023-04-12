@@ -43,7 +43,9 @@ const SelectTextfield: React.FC<ISelectTextField> = ({title,onChange, options}) 
                     label="Technicians"
                     onChange={(e) => {
                         setSelectedOption(e.target.value);
+                        console.log(selectedOption)
                         onChange(e);
+                        
                     }}
                     onClose={() => setSearchText('')}
                     renderValue={() => selectedOption}
